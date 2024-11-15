@@ -1,0 +1,13 @@
+
+# Title - WatchTower
+# Description - Automating Docker container base image updates
+# Note - 
+
+# ignored options for 'watchtower'
+# --detach
+services:
+    watchtower:
+        container_name: watchtower
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        image: containrrr/watchtower
