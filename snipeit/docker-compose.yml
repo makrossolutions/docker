@@ -1,33 +1,38 @@
-# Compose file for production.
-
+---
 services:
-  app:
-    image: snipe/snipe-it:${APP_VERSION:-v7.0.11}
-    restart: unless-stopped
-    volumes:
-      - /data/snipeit/app:/var/lib/snipeit
-    ports:
-      - "${APP_PORT:-8000}:80"
-    depends_on:
-      db:
-        condition: service_healthy
-        restart: true
-    env_file:
-      - .env
-
-  db:
-    image: mariadb:11.5.2
-    restart: unless-stopped
-    volumes:
-      - /data/snipeit/db:/var/lib/mysql
+  snipe-it:
+    image: lscr.io/linuxserver/snipe-it:latest
+    container_name: snipe-it
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    healthcheck:
-      # https://mariadb.com/kb/en/using-healthcheck-sh/#compose-file-example
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-      interval: 5s
-      timeout: 1s
-      retries: 5
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Colombo
+      - APP_KEY=
+      - APP_URL=http://localhost:8080
+      - MYSQL_PORT_3306_TCP_ADDR=localhost
+      - MYSQL_PORT_3306_TCP_PORT=3306
+      - MYSQL_DATABASE=snipeit
+      - MYSQL_USER=snipe
+      - MYSQL_PASSWORD=snipe
+      - APP_DEBUG=false #optional
+      - APP_ENV=production #optional
+      - APP_FORCE_TLS=false #optional
+      - APP_LOCALE= #optional
+      - MAIL_PORT_587_TCP_ADDR= #optional
+      - MAIL_PORT_587_TCP_PORT= #optional
+      - MAIL_ENV_FROM_ADDR= #optional
+      - MAIL_ENV_FROM_NAME= #optional
+      - MAIL_ENV_ENCRYPTION= #optional
+      - MAIL_ENV_USERNAME= #optional
+      - MAIL_ENV_PASSWORD= #optional
+    volumes:
+      - /data/snipeit/data:/config
+    ports:
+      - 8080:80
+    networks:
+          - myNetwork      #DD- This network was created manually using Portainer
+    restart: unless-stopped
+
+networks:
+  myNetwork:           #DD- This network was created manually using Portainer
+    external: true  
