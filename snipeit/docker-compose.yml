@@ -14,7 +14,8 @@ services:
       db:
         condition: service_healthy
         restart: true
-
+    env_file:
+      - stack.env
 
   db:
     image: mariadb:11.5.2
