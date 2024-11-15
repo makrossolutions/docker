@@ -1,0 +1,26 @@
+
+# Title - Heimdall Application Dashboard
+# Description - dashboard for all your web applications
+# Note - 
+
+---
+services:
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Colombo
+    volumes:
+      - /data/heimdall/config:/config
+    ports:
+      - 8080:80
+      - 8443:443
+    restart: unless-stopped
+    networks:          #DD- This network was created manually using Portainer
+      - myNetwork
+
+networks:
+  myNetwork:           #DD- This network was created manually using Portainer
+    external: true
