@@ -8,7 +8,7 @@ services:
       - PGID=1000
       - TZ=Asia/Colombo
       - APP_KEY=
-      - APP_URL=http://localhost:8080
+      - APP_URL=http://localhost:8080     # In Portainer, detach from GIT and using editor (most probably in Stacks), change this to the correct url as it will have problems otherwise
       - MYSQL_PORT_3306_TCP_ADDR=localhost
       - MYSQL_PORT_3306_TCP_PORT=3306
       - MYSQL_DATABASE=snipeit
