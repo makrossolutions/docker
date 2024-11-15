@@ -8,6 +8,8 @@ services:
       - /data/snipeit/app:/var/lib/snipeit
     ports:
       - "${APP_PORT}:80"
+    networks:
+      - myNetwork      #DD- This network was created manually using Portainer
     depends_on:
       db:
         condition: service_healthy
@@ -19,6 +21,8 @@ services:
     restart: unless-stopped
     volumes:
       - /data/snipeit/db:/var/lib/mysql
+    networks:
+      - myNetwork      #DD- This network was created manually using Portainer
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
@@ -30,3 +34,7 @@ services:
       interval: 5s
       timeout: 1s
       retries: 5
+
+networks:
+  myNetwork:           #DD- This network was created manually using Portainer
+    external: true
